@@ -6,14 +6,11 @@
 /*   By: dkros <dkros@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 18:11:51 by dkros             #+#    #+#             */
-/*   Updated: 2025/01/16 19:42:48 by dkros            ###   ########.fr       */
+/*   Updated: 2025/01/22 15:06:40 by dkros            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include <algorithm>
-#include <string>
-using namespace std;
 
 int main(int argc, char **argv) {
 
@@ -23,7 +20,9 @@ int main(int argc, char **argv) {
 	}
 	for (int i = 1; argv[i]; i++) {
 		std::string str = argv[i];
-		std::transform(str.begin(), str.end(), str.begin(), ::toupper);
+		for (std::size_t j = 0; j <= str.length(); j++) {
+			str[j] = std::toupper(str[j]);
+		}
 		std::cout << str;
 	}
 	std::cout << std::endl;
