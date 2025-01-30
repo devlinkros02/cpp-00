@@ -1,76 +1,56 @@
 #include <iostream>
+#include "PhoneBook.hpp"
 
-class Contact {
+#define CLS "\033[2J\033[1;1H";
 
-	private:
-		std::string darkest_secret;
 
-	public:
-		std::string first_name;
-		std::string last_name;
-		std::string nickname;
-		std::string phone_number;
+std::string get_valid_input(std::string prompt, bool validator) {
 
-		Contact(std::string fn, std::string ln,
-			std::string nn, std::string pn, std::string ds) {
+	std::string name;
 
-			first_name = fn;
-			last_name = ln;
-			nickname = nn;
-			phone_number = pn;
-			darkest_secret = ds;
+	while (name.empty())
+	{
+		std::cout << prompt << ": " << std::endl;
+		std::getline(std::cin, name);
+		if (name.empty() && validator) {
+			std::cout << prompt << " cannot be empty, please try again." << std::endl;
+		} else if (name.empty()) {
+			return ("");
 		}
-
-		void print() {
-			std::cout << "Contact info: " << std::endl << std::endl;
-			std::cout << "  First name: " << first_name << std::endl;
-			std::cout << "  Last name: " << last_name << std::endl;
-			std::cout << "  Nickname: " << nickname << std::endl;
-			std::cout << "  Phone Number: " << phone_number << std::endl;
-			std::cout << std::endl;
-		}
-};
-
-std::string get_from_cin(std::string prompt) {
-
-	char buffer[256];
-
-	std::cout << prompt << ": " << std::endl;
-	std::cin.getline(buffer, 256);
-	return std::string(buffer);
+	}
+	return (name);
 }
 
-class PhoneBook {
+std::string trunc(const std::string &str) {
+    std::string final_string(10, ' ');
 
-	private:
-		int size = 0;
-
-	public:
-		Contact contacts[8];
-
-		void add() {
-			if (size == 9) {
-				size = 0;
-			}
-
-			std::string fn = get_from_cin("First name");
-			std::string ln = get_from_cin("Last name");
-			std::string nn = get_from_cin("Nickname");
-			std::string pn = get_from_cin("Phone number");
-			std::string ds = get_from_cin("Deepest secret");
-
-			contacts[size] = Contact(fn, ln, nn, pn, ds);
-		}
-};
+    if (str.length() <= 10) {
+        std::size_t start_index = 10 - str.length();
+        for (std::size_t i = 0; i < str.length(); i++) {
+            final_string[start_index + i] = str[i];
+        }
+    } else {
+        for (int i = 0; i < 9; i++) {
+            final_string[i] = str[i];
+        }
+        final_string[9] = '.';
+    }
+    return final_string;
+}
 
 int main(void) {
+	PhoneBook phonebook;
 
-	Contact devlin("Devlin", "Kros", "Dev", "0612345678", "geheim");
-
-	std::cout << "Contact info: " << std::endl << std::endl;
-	std::cout << "  First name: " << devlin.first_name << std::endl;
-	std::cout << "  Last name: " << devlin.last_name << std::endl;
-	std::cout << "  Nickname: " << devlin.nickname << std::endl;
-	std::cout << "  Phone Number: " << devlin.phone_number << std::endl;
+	std::cout << CLS;
+	while (1) {
+		std::string command = get_valid_input("Pick one of three commands: ADD, SEARCH or EXIT", false);
+		if (command == "ADD") {
+			phonebook.add();
+		} else if (command == "SEARCH") {
+			phonebook.search();
+		} else if (command == "EXIT") {
+			break;
+		}
+	}
 	return 0;
 }

@@ -3,7 +3,7 @@ CXX = c++
 CXXFLAGS = -Wall -Wextra -Werror
 SRC = $(shell find . -name "*.cpp")
 OBJ = $(SRC:.cpp=.o)
-TARGET = megaphone
+TARGET = account
 
 # Rules
 all: $(TARGET)
