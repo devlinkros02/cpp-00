@@ -1,9 +1,6 @@
 #include <iostream>
 #include "PhoneBook.hpp"
 
-#define CLS "\033[2J\033[1;1H";
-
-
 std::string get_valid_input(std::string prompt, bool validator) {
 
 	std::string name;
