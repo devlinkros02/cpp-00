@@ -5,17 +5,21 @@ std::string get_valid_input(std::string prompt, bool validator) {
 
 	std::string name;
 
-	while (name.empty())
+	while (1)
 	{
 		std::cout << prompt << ": " << std::endl;
-		std::getline(std::cin, name);
+		if (!std::getline(std::cin, name)) {
+			exit(0);
+		}
+
 		if (name.empty() && validator) {
 			std::cout << prompt << " cannot be empty, please try again." << std::endl;
 		} else if (name.empty()) {
 			return ("");
+		} else {
+			return (name);
 		}
 	}
-	return (name);
 }
 
 std::string trunc(const std::string &str) {
@@ -36,9 +40,10 @@ std::string trunc(const std::string &str) {
 }
 
 int main(void) {
+	std::cout << CLS;
+
 	PhoneBook phonebook;
 
-	std::cout << CLS;
 	while (1) {
 		std::string command = get_valid_input("Pick one of three commands: ADD, SEARCH or EXIT", false);
 		if (command == "ADD") {
